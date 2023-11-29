@@ -1,0 +1,25 @@
+plugins {
+    id 'com.gradle.enterprise' version '3.15.1'
+    id 'com.gradle.common-custom-user-data-gradle-plugin' version '1.12'
+}
+
+def isCI = System.getenv('CI') != null // adjust to your CI provider
+
+gradleEnterprise {
+    server = 'https://ge.solutions-team.gradle.com/'
+
+    buildScan {
+        capture { taskInputFiles = true }
+        uploadInBackground = !isCI
+        publishAlways()
+    }
+}
+
+buildCache {
+    local {
+        enabled = false
+    }
+}
+
+rootProject.name = 'cucumberTest'
+
